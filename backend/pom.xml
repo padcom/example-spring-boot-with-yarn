@@ -16,10 +16,6 @@
 
 	<name>Example :: Spring Boot with Vue :: Backend</name>
 
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -34,6 +30,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -47,6 +49,32 @@
 
 	<build>
 		<plugins>
+			<!-- The main definition of the Groovy compiler -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<compilerId>groovy-eclipse-compiler</compilerId>
+					<verbose>false</verbose>
+				</configuration>
+				<dependencies>
+					<!-- This defines the compiler bridge to process all files (.java and .groovy) -->
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-eclipse-compiler</artifactId>
+						<version>2.9.2-01</version>
+					</dependency>
+					<!-- This defines the compiler used by the plugin -->
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-eclipse-batch</artifactId>
+						<version>2.4.3-01</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -66,8 +94,10 @@
 				</executions>
 			</plugin>
 		</plugins>
+
 		<pluginManagement>
 			<plugins>
+				<!-- From command line run `mvn fizzed-watcher:run` to have the classes recompiled when saved -->
 				<plugin>
 					<groupId>com.fizzed</groupId>
 					<artifactId>fizzed-watcher-maven-plugin</artifactId>
